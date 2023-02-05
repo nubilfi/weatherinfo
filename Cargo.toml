@@ -1,0 +1,55 @@
+[package]
+name = "weatherinfo"
+version = "0.1.0"
+edition = "2021"
+authors = ["nubilfi"]
+description = "CLI to get weather info from openweathermap.org"
+homepage = "https://github.com/nubilfi/weatherinfo"
+repository = "https://github.com/nubilfi/weatherinfo"
+readme = "README.md"
+license-file = "LICENSE"
+keywords = ["WEATHER"]
+exclude = [
+  ".gitignore",
+  ".github/*"
+]
+
+[[bin]]
+name = "weatherinfo"
+path = "src/main.rs"
+
+[profile.release]
+opt-level = 'z'
+panic = 'abort'
+codegen-units = 1
+lto = true
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+clap = { version = "4.1.4", features = ["derive"], optional = true }
+dotenvy = "0.15.6"
+derive_more = "0.99.17"
+dirs = "4.0.0"
+envy = "0.4.2"
+log = "0.4.17"
+parking_lot = "0.12.1"
+reqwest = { version = "0.11.14", features = ["json", "rustls-tls", "gzip"], default-features = false, optional = true }
+serde = { version = "1.0.152", features = ["derive"] }
+serde_json = "1.0.91"
+thiserror = "1.0.38"
+tokio = { version = "1.25.0", features = ["full"], optional = true}
+url = "2.3.1"
+
+[dev-dependencies]
+# anyhow = "1.0.68"
+# approx = "0.5.1"
+# assert_cmd = "2.0.8"
+# predicates = "2.1.5"
+# tempfile = "3.3.0"
+# criterion = "0.4.0"
+
+# Read more about `features` at https://doc.rust-lang.org/cargo/reference/features.html#optional-dependencies
+[features]
+default = ["cli"]
+cli = ["reqwest", "tokio", "clap"]
